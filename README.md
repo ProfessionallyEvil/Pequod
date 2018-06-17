@@ -10,7 +10,7 @@ TODO: Intro here
 ![Moby Dick Final Chase](https://upload.wikimedia.org/wikipedia/commons/8/8b/Moby_Dick_final_chase.jpg)
 
 ## Setup
-1. Make sure you've installed VirtualBox and Vagrant.
+1. Make sure you've installed [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and [Vagrant](https://www.vagrantup.com/).
 
 ## Usage
 TODO: How to use Pequod (tools included?)
