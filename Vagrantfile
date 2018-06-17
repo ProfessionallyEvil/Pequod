@@ -3,27 +3,19 @@
 
 require 'getoptlong'
 
-opts = GetoptLong.new(
-  [ '--box_path', GetoptLong::REQUIRED_ARGUMENT ],
-  [ '--box_url', GetoptLong::REQUIRED_ARGUMENT ])
-
-local_box = false
-box_path = "professionallyevil/pequod"
 box_url = "http://tiny.si/pequod_base.box"
 
-opts.each do |opt, arg|
-  case opt
-    when '--box_path'
-      if arg == ''
-        abort
+ARGV.each do |com|
+  if com.length > 1 && com[0,2] == '--'
+    if com.index('=')
+      opt = com[0,com.index('=')]
+      arg = com[com.index('=')+1,com.length]
+      case opt
+      when '--box_url'
+        puts("Setting url to #{arg}")
+        box_url = arg
       end
-      box_path = arg
-      local_box = true
-    when '--box_url'
-      if arg == ''
-        abort
-      end
-      box_url = arg
+    end
   end
 end
 
@@ -31,13 +23,14 @@ Vagrant.configure("2") do |config|
   
   config.vm.box_url = box_url 
   # default to using tiny.si url
-  config.vm.box = box_path 
+  config.vm.box = "ProfessionallyEvil/pequod" 
   
-  #config.vm.box = "pequod_base.box"
+  # config.vm.box = "pequod_base.box"
   # config.vm.box_url = "http://tiny.si/pequod_base.box"
   config.vm.define "pequod", primary: true do |pequod|
     # Every Vagrant development environment requires a box. You can search for
     # boxes at https://vagrantcloud.com/search.
+    # config.vm.synced_folder
     config.ssh.username = "ahab"
     config.vm.provider :virtualbox do |vb|
       vb.gui = false
@@ -47,6 +40,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "echo Call me Ishmael."
     config.vm.provision "shell", path: "provisions/install/docker.sh"
     # config.vm.provision "shell", path: "provisions/install/docker_containers.sh"
+    config.vm.provision "shell", path: "provisions/targets/docker_socket/run.sh"
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
 end
