@@ -14,14 +14,14 @@ TODO: Intro here
 
 ## Usage
 TODO: How to use Pequod (tools included?)
-#### Default start
-Simply run `vagrant up` in the root dir of the project to get a default instance of the VM
-#### Custom start*
-Pequod offers two optional ways to build/start the vm:
+#### Starting
+Pequod offers three ways to build/start the vm:
 
-1. Local box
+1. Default **recommended**
+    * Simply run `vagrant up` in the root dir of the project to get a default instance of the VM
+2. Local box
     * Excute `vagrant --box_path=<path_to_box_file> up` to use a box file on your local machine.
-2. Hosted box somewhere other than vagrantcloud
+3. Hosted box somewhere other than vagrantcloud
     * Execute `vagrant --box_url=<http(s)://url.to.box/file> up`
   
 *The options must preceed `up` to avoid them being processed as args to `up`.*
