@@ -1,11 +1,11 @@
 # Pequod - Container hacking lab environment.
 TODO: Intro here
 
-* [Intro](#Pequod)
-* [setup](#Setup)
-* [Usage](#Usage)
-* [Troubleshooting](#Troubleshooting)
-* [FAQ](#FAQ)
+* [Intro](#pequod)
+* [setup](#setup)
+* [Usage](#usage)
+* [Troubleshooting](#troubleshooting)
+* [FAQ](#faq)
 
 ![Moby Dick Final Chase](https://upload.wikimedia.org/wikipedia/commons/8/8b/Moby_Dick_final_chase.jpg)
 
