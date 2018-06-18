@@ -1,8 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'getoptlong'
-
 box_url = "http://tiny.si/pequod_base.box"
 
 ARGV.each do |com|
@@ -38,9 +36,13 @@ Vagrant.configure("2") do |config|
     end
   
     config.vm.provision "shell", inline: "echo Call me Ishmael."
+    config.vm.provision "shell", inline: "mkdir -p /home/ahab/.scripts"
+    config.vm.provision "shell", inline: "cp -r /vagrant/provisions/* /home/ahab/.scripts"
     config.vm.provision "shell", path: "provisions/install/docker.sh"
-    # config.vm.provision "shell", path: "provisions/install/docker_containers.sh"
-    config.vm.provision "shell", path: "provisions/targets/docker_socket/run.sh"
+    config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
+    config.vm.provision "shell", inline: <<-SHELL
+    echo "@reboot root /home/ahab/.scripts/provisions/targets/start_docker_targets.sh &" | tee /etc/cron.d/docker_sock_target
+    SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
 end
