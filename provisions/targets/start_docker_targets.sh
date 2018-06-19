@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd /home/ahab/.scripts/provisions/targets/docker_socket/
+pushd /home/ahab/.scripts/targets/docker_socket/
 echo "Setting up docker socket target..."
 docker build . -t docker_sock_mount
 popd
