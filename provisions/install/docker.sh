@@ -17,7 +17,9 @@ if [[ ! $(grep -E "^docker" /etc/group) ]]; then
 	groupadd docker
 fi
 echo "adding $USER to docker group..."
-usermod -aG docker $USER
-echo "adding ahab to docker group..."
 usermod -aG docker ahab
+#usermod -aG docker $USER
+#usermod -aG docker vagrant
+#echo "adding ahab to docker group..."
+#usermod -aG docker ahab
 # TODO: configure docker socket to accept remote connections as well.
