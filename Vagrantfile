@@ -19,6 +19,7 @@ end
 
 Vagrant.configure("2") do |config|
   
+  #config.vm.box = "ubuntu/trusty64"
   config.vm.box_url = box_url 
   # default to using tiny.si url
   config.vm.box = "ProfessionallyEvil/pequod" 
@@ -36,12 +37,13 @@ Vagrant.configure("2") do |config|
     end
   
     config.vm.provision "shell", inline: "echo Call me Ishmael."
-    config.vm.provision "shell", inline: "mkdir -p /home/ahab/.scripts"
-    config.vm.provision "shell", inline: "cp -r /vagrant/provisions/* /home/ahab/.scripts"
+    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.scripts"
+    config.vm.provision "shell", inline: "cp -r /vagrant/provisions/* /home/vagrant/.scripts"
     config.vm.provision "shell", path: "provisions/install/docker.sh"
+    config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/aibc /home/vagrant/.scripts/targets/docker_socket/"
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
     config.vm.provision "shell", inline: <<-SHELL
-    (crontab -l 2>/dev/null; echo "@reboot root /home/ahab/.scripts/provisions/targets/start_docker_targets.sh") | crontab -
+    (crontab -l 2>/dev/null; echo "@reboot root /home/vagrant/.scripts/targets/start_docker_targets.sh") | crontab -
     SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
