@@ -182,6 +182,7 @@ POST /containers/$DOCKER_CONTAINER_ID/attach?stream=1&stdin=1&stdout=1&stderr=1 
 Host:
 Connection: Upgrade
 Upgrade: tcp
+
 EOM
 
 	socat - UNIX-CONNECT:$DOCKER_SOCK_PATH <<< $DOCKER_CONNECT_HEADERS

@@ -1,7 +1,7 @@
 #!/bin/bash
 # kill any running docker containers, in case we provision while vm is running
 docker rm $(docker ps -aq) 
-pushd /home/ahab/.scripts/targets/docker_socket/
+pushd /home/vagrant/.scripts/targets/docker_socket/
 echo "Setting up docker socket target..."
 docker build . -t docker_sock_mount
 popd
