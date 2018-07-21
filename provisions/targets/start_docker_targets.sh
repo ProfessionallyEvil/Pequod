@@ -11,7 +11,7 @@ docker run -d -v /var/run/docker.sock:/var/run/docker.sock:ro --name docker_sock
 pushd /home/vagrant/.scripts/targets/docker_php_app/
 # leave off ro here, like a fool. So that we can make changes to the folder on the root.
 docker build . -t docker_php_app
-docker run -d -v /home/vagrant/.scripts/targets/docker_php_app/app:/app -v /var/run/docker.sock:/var/run/docker.sock -p 8000:8000 --name docker_sock_mount --name my_photoalbum_app docker_php_app
+docker run -d -v /home/vagrant/.scripts/targets/docker_php_app/app:/app -v /var/run/docker.sock:/var/run/docker.sock -p 8000:8000 --name docker_sock_mount --name scma docker_php_app
 popd
 # pushd /home/ahab/.scripts/targets/docker_status_page/
 # docker build . -t docker_status_page
