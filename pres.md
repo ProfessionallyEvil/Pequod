@@ -83,7 +83,10 @@ So, how to avoid what we just did?
 * __Don't mount the docker socket into a container__.
 * Probably a lot of other ways that I can't think of right now because it's late...
 
+#### If I have time/energy; Kernel sharing
+Containers share the same kernel as the host. After all they're just processes running on the host, using it's kernel. This is pretty important because of one major implication - __If the host kernel is vulnerable to something, the container is vulnerable too__. The Pequod VM is deliberately built with an outdated version of Ubuntu with a vulnerable kernel.
+
 #### Now it's your turn
-If you're running the Pequod vm you should be able to go to 127.0.0.1:8000/index.html. Once there it's up to you to figure out what to do (only look at the source if you're really desperate, or ask me for help).
+If you're running the Pequod vm you should be able to go to `127.0.0.1:8000/index.html`. Once there it's up to you to figure out what to do (only look at the source if you're really desperate, or ask me for help).
 
 
