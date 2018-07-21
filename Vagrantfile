@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", path: "provisions/install/docker.sh"
     config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/aibc /home/vagrant/.scripts/targets/docker_socket/"
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
+    config.vm.provision "shell", inline: "cp -r /home/vagrant/.scripts/flags /"
     config.vm.provision "shell", inline: <<-SHELL
     (crontab -l 2>/dev/null; echo "@reboot root /home/vagrant/.scripts/targets/start_docker_targets.sh") | crontab -
     SHELL
