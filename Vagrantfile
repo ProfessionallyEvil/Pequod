@@ -23,6 +23,9 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = box_url 
   # default to using tiny.si url
   config.vm.box = "ProfessionallyEvil/pequod" 
+
+  # expose a web app to the host system
+  config.vm.network "forwarded_port", guest: 8000, host: 8000, id: 'my_photoalbum_app'
   
   # config.vm.box = "pequod_base.box"
   # config.vm.box_url = "http://tiny.si/pequod_base.box"
