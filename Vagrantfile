@@ -47,7 +47,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
     config.vm.provision "shell", inline: "cp -r /home/vagrant/.scripts/flags /"
     config.vm.provision "shell", inline: <<-SHELL
-    (crontab -l 2>/dev/null; echo "@reboot root /home/vagrant/.scripts/targets/start_docker_targets.sh") | crontab -
+    sed -i '/exit 0/d' /etc/rc.local
+    echo -e "sh /home/vagrant/.scripts/targets/start_docker_targets.sh\n\nexit 0" >> /etc/rc.local 
     SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
