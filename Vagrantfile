@@ -26,6 +26,9 @@ Vagrant.configure("2") do |config|
 
   # expose a web app to the host system
   config.vm.network "forwarded_port", guest: 8000, host: 8000, id: 'my_photoalbum_app'
+  # expose kubernetes stuff to the host system
+  config.vm.network "forwarded_port", guest: 8080, host: 8081, id: 'kubernetes'
+  config.vm.network "forwarded_port", guest: 10250, host: 10250, id: 'cluster_api'
   
   # config.vm.box = "pequod_base.box"
   # config.vm.box_url = "http://tiny.si/pequod_base.box"
@@ -43,12 +46,19 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.scripts"
     config.vm.provision "shell", inline: "cp -r /vagrant/provisions/* /home/vagrant/.scripts"
     config.vm.provision "shell", path: "provisions/install/docker.sh"
-    config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/aibc /home/vagrant/.scripts/targets/docker_socket/"
+    config.vm.provision "shell", path: "provisions/install/snapd.sh"
+    config.vm.provision "shell", path: "provisions/install/microk8s.sh"
+    config.vm.provision "shell", path: "provisions/targets/kube.sh"
+    config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/harpoon.sh /home/vagrant/.scripts/targets/docker_socket/"
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
     config.vm.provision "shell", inline: "cp -r /home/vagrant/.scripts/flags /"
+    config.vm.provision "shell", inline: "chmod +x /vagrant/provisions/tools/websocat && ln -s /vagrant/provisions/tools/websocat /usr/bin/websocat"
     config.vm.provision "shell", inline: <<-SHELL
     sed -i '/exit 0/d' /etc/rc.local
-    echo -e "sh /home/vagrant/.scripts/targets/start_docker_targets.sh\n\nexit 0" >> /etc/rc.local 
+    echo -e "sh /home/vagrant/.scripts/targets/start_docker_targets.sh\n" >> /etc/rc.local 
+    echo -e "sh /home/vagrant/.scripts/targets/kube.sh\n" >> /etc/rc.local
+    
+    echo -e "exit 0" >> /etc/rc.local
     SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
