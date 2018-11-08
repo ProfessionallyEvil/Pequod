@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", path: "provisions/install/docker.sh"
     config.vm.provision "shell", path: "provisions/install/snapd.sh"
     config.vm.provision "shell", path: "provisions/install/microk8s.sh"
-    config.vm.provision "shell", path: "provisions/targets/kube.sh"
+    # config.vm.provision "shell", path: "provisions/targets/kube.sh"
     config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/harpoon.sh /home/vagrant/.scripts/targets/docker_socket/"
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
     config.vm.provision "shell", inline: "cp -r /home/vagrant/.scripts/flags /"
