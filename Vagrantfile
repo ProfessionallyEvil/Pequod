@@ -49,10 +49,10 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", path: "provisions/install/snapd.sh"
     config.vm.provision "shell", path: "provisions/install/microk8s.sh"
     # config.vm.provision "shell", path: "provisions/targets/kube.sh"
-    config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/harpoon.sh /home/vagrant/.scripts/targets/docker_socket/"
+    config.vm.provision "shell", inline: "cp /home/vagrant/.scripts/tools/harpoon /home/vagrant/.scripts/targets/docker_socket/"
     config.vm.provision "shell", path: "provisions/targets/start_docker_targets.sh"
     config.vm.provision "shell", inline: "cp -r /home/vagrant/.scripts/flags /"
-    config.vm.provision "shell", inline: "chmod +x /vagrant/provisions/tools/websocat && ln -s /vagrant/provisions/tools/websocat /usr/bin/websocat"
+    config.vm.provision "shell", inline: "chmod +x /vagrant/provisions/tools/harpoon && ln -s /vagrant/provisions/tools/harpoon /usr/bin/harpoon"
     config.vm.provision "shell", inline: <<-SHELL
     sed -i '/exit 0/d' /etc/rc.local
     echo -e "sh /home/vagrant/.scripts/targets/start_docker_targets.sh\n" >> /etc/rc.local 
@@ -64,6 +64,10 @@ Vagrant.configure("2") do |config|
     useradd ishmael
     echo "ishmael:moby" | chpasswd
     usermod -aG docker ishmael
+    #echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+    #echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+    #echo "AllowUsers: ahab" >> /etc/ssh/sshd_config
+    #service ssh restart
     SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
