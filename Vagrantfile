@@ -59,6 +59,11 @@ Vagrant.configure("2") do |config|
     echo -e "sh /home/vagrant/.scripts/targets/kube.sh\n" >> /etc/rc.local
     
     echo -e "exit 0" >> /etc/rc.local
+
+    # add ishmael
+    useradd ishmael
+    echo "ishmael:moby" | chpasswd
+    usermod -aG docker ishmael
     SHELL
     config.vm.provision "shell", inline: "echo Thus, I give up the spear!"
   end
